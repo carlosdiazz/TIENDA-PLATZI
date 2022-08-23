@@ -1,0 +1,56 @@
+
+### GET a un producto especifico
+GET http://localhost:3000/api/v1/products/a13825cc-87a0-4166-84b5-c40ea217d98a
+
+
+
+### GET a todos los productos
+GET http://localhost:3000/api/v1/products
+
+
+
+### POST a los productos
+POST http://localhost:3000/api/v1/products HTTP/1.1
+Content-Type: application/json
+
+{
+  "name"  : "NUEVOI",
+  "price" : 124,
+  "image" : "http://hola.com"
+}
+
+
+### PATCH A LOS PRODUCTOS
+PATCH http://localhost:3000/api/v1/products/a13825cc-87ass-4166-84b5-c40ea217d98a HTTP/1.1
+Content-Type: application/json
+
+{
+  "name"  : "carlos"
+}
+
+
+### DELETE A LOS PRODUCTOS
+DELETE http://localhost:3000/api/v1/products/a13825cc-87a0-4166-84b5-c40ea217d98a HTTP/1.1
+
+###? ---------------------------------------------------------------------------------------------------
+
+
+### GET a los USER
+GET http://localhost:3000/api/v1/users HTTP/1.1
+
+
+
+### GET a un user especifico
+GET http://localhost:3000/api/v1/users/cc959c58-e0cb-4817-a246-228ce0f173b9 HTTP/1.1
+
+### POST a un nuevo USERS
+POST http://localhost:3000/api/v1/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "name"    : "CARLOS",
+  "email"   : "correo prueba",
+  "image"   : "fotoprueba",
+  "tel"     : "809-000-0000",
+  "address" : "LA VEGA"
+}
