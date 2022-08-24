@@ -1,6 +1,6 @@
 
 ### GET a un producto especifico
-GET http://localhost:3000/api/v1/products/a13825cc-87a0-4166-84b5-c40ea217d98a
+GET http://localhost:3000/api/v1/products/9d8c651e-a742-4ed1-88f0-6bef30346db0
 
 
 
@@ -54,3 +54,7 @@ Content-Type: application/json
   "tel"     : "809-000-0000",
   "address" : "LA VEGA"
 }
+
+### DELETE UN USERS
+
+DELETE http://localhost:3000/api/v1/users/d765d078-82e2-4a73-8831-476854894726 HTTP/1.1

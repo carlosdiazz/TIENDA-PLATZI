@@ -7,28 +7,29 @@ const router = express.Router();
 const service = new ProductsService();
 
 //Peticiones GET
-router.get('/', (req, res) => {
+router.get('/', async(req, res) => {
   //Aqui llamo a la funcion find de la clase ProductsService
-  const products = service.find();
+  const products = await service.find();
   res.json(products);
 });
 
-router.get('/:id', (req, res) => {
-  //const id = req.params.id;
-  const {id} = req.params;
-  const product = service.findOne(id);
-  if(product){
+router.get('/:id', async(req, res, next) => {
+  try{
+    //const id = req.params.id;
+    const {id} = req.params;
+    const product = await service.findOne(id);
     res.json(product);
-  }else{
-    res.status(404).json({message: 'Product not found'});
+
+  }catch(e){
+    next(e);
   }
 
 })
 
 //Peticiones POST
-router.post('/', (req, res) => {
+router.post('/', async(req, res) => {
   const body = req.body;
-  const newProduct = service.create(body);
+  const newProduct = await service.create(body);
   res.status(201).json({
     message: 'Product created',
     data: newProduct
@@ -36,21 +37,26 @@ router.post('/', (req, res) => {
 })
 
 //Peticiones PATCH
-router.patch('/:id', (req, res) => {
-  const {id} = req.params;
-  const body = req.body;
-  const product = service.update(id, body);
-  res.json({
-    message: 'Product updated',
-    data: product,
-    id: id
-  });
+router.patch('/:id', async(req, res, next) => {
+  try{
+    const {id} = req.params;
+    const body = req.body;
+    const product = await service.update(id, body);
+    res.json({
+      message: 'Product updated',
+      data: product,
+      id: id
+    });
+  }catch(e){
+    next(e);
+  }
+
 })
 
 //Peticiones DELETE
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const {id} = req.params;
-  const product = service.delete(id);
+  const product = await service.delete(id);
   res.json({
     message: 'Product deleted',
     data: product,
