@@ -1,17 +1,16 @@
 
 const express = require('express');
-const app = express();
 const routerApi = require('./routers/index.routes');
 const PORT = require('./config').port;
+const cors = require('cors');
 const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error.handler');
 
+//Inicializacion de express
+const app = express();
 
 //Para poder permitir que me lleguen JSON en el body de las peticiones
 app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use(cors());
 
 //Agregar Todas las rutas por aqui
 routerApi(app);
@@ -24,7 +23,7 @@ app.use(errorHandler);
 
 //Aqui configuro el puerto a utilizar
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Desplegado en el puerto: ${PORT}`);
 })
 
 // Crear rutas, para productos, categorias, usuarios,

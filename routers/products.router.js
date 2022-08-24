@@ -1,7 +1,10 @@
 //RUTA PRODUCTS
 const express = require('express');
 const ProductsService = require('../services/product.service');
+const validatorHandler = require('../middlewares/validator.handler');
+const {createProductSchema, updateProductSchema, getProductSchema} = require('../schemas/product.schema');
 const router = express.Router();
+
 
 //Aqui creo una isntancia de la clase ProductsService
 const service = new ProductsService();
@@ -11,9 +14,11 @@ router.get('/', async(req, res) => {
   //Aqui llamo a la funcion find de la clase ProductsService
   const products = await service.find();
   res.json(products);
-});
+})
 
-router.get('/:id', async(req, res, next) => {
+router.get('/:id',
+  validatorHandler(getProductSchema, 'params'), //Aqui valido el id que llega por parametro en la url con el schema getProductSchema
+  async(req, res, next) => {
   try{
     //const id = req.params.id;
     const {id} = req.params;
@@ -27,7 +32,9 @@ router.get('/:id', async(req, res, next) => {
 })
 
 //Peticiones POST
-router.post('/', async(req, res) => {
+router.post('/',
+  validatorHandler(createProductSchema, 'body'), //Aqui valido el body que llega por parametro en la url con el schema createProductSchema
+  async(req, res) => {
   const body = req.body;
   const newProduct = await service.create(body);
   res.status(201).json({
@@ -37,7 +44,10 @@ router.post('/', async(req, res) => {
 })
 
 //Peticiones PATCH
-router.patch('/:id', async(req, res, next) => {
+router.patch('/:id',
+  validatorHandler(getProductSchema, 'params'), //Aqui valido el id que llega por parametro en la url con el schema updateProductSchema
+  validatorHandler(updateProductSchema, 'body'), //Aqui valido el body que llega por parametro en la url con el schema updateProductSchema
+  async(req, res, next) => {
   try{
     const {id} = req.params;
     const body = req.body;
@@ -45,7 +55,6 @@ router.patch('/:id', async(req, res, next) => {
     res.json({
       message: 'Product updated',
       data: product,
-      id: id
     });
   }catch(e){
     next(e);
