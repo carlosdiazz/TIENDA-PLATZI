@@ -1,5 +1,7 @@
 const faker = require('faker');
 
+const getConnection = require('../libs/postgres');
+
 class UsersService {
 
   constructor(){
@@ -21,15 +23,17 @@ class UsersService {
     }
   }
 
-  find(){
-    return this.users;
+  async find(){
+    const client = await getConnection();
+    const rta = await client.query('SELECT * FROM tasks');
+    return rta.rows;
   }
 
-  findOne(id){
+  async findOne(id){
     return this.users.find(user => user.id === id);
   }
 
-  create(data){
+  async create(data){
     const newUser = {
       id: faker.datatype.uuid(),
       name: data.name,
@@ -42,7 +46,7 @@ class UsersService {
     return newUser;
   }
 
-  update(id, data){
+  async update(id, data){
     const index = this.users.findIndex(user => user.id === id);
     if(index !== -1){
       const user = this.users[index];
@@ -56,7 +60,7 @@ class UsersService {
     }
   }
 
-  delete(id){
+  async delete(id){
     const index = this.users.findIndex(user => user.id === id);
     if(index !== -1){
       this.users.splice(index, 1);

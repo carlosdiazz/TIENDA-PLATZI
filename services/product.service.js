@@ -3,6 +3,8 @@
 const boom = require('@hapi/boom');
 const faker = require('faker');
 
+const pool = require('../libs/postgres.pool');
+
 //Aqui definimos toda la logica y toda la interaciones a nivel transancional de nuestros datos
 
 class ProductsService {
@@ -10,6 +12,8 @@ class ProductsService {
   constructor(){
     this.products = [];
     this.generate();
+    this.pool = pool;
+    this.pool.on('error', (err) => console.log(err));
   }
 
   async generate() {
@@ -37,7 +41,9 @@ class ProductsService {
   }
 
   async find(){
-    return this.products;
+    const query = 'SELECT * FROM tasks';
+    const rta = await this.pool.query(query);
+    return rta.rows;
   }
 
   async findOne(id){

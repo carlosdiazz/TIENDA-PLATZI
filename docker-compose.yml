@@ -12,6 +12,7 @@ services:
     volumes:
       - ./postgres_date:/var/lib/postgresql/data
 
+  #Este contenedeor es para vizualizar en la web la base de dato
   pgadmin:
     image: dpage/pgadmin4
     environment:
