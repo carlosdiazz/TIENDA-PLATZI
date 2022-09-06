@@ -1,7 +1,7 @@
 
 const express = require('express');
 const routerApi = require('./routers/index.routes');
-const PORT = require('./config').port;
+const {config} = require('./config');
 const cors = require('cors');
 const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error.handler');
 
@@ -22,8 +22,8 @@ app.use(errorHandler);
 
 
 //Aqui configuro el puerto a utilizar
-app.listen(PORT, () => {
-  console.log(`Desplegado en el puerto: ${PORT}`);
+app.listen(config.port, () => {
+  console.log(`Desplegado en el puerto: ${config.port}`);
 })
 
 // Crear rutas, para productos, categorias, usuarios,
