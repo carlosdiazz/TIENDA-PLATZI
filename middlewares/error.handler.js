@@ -5,6 +5,16 @@ const logErrors = (err, req, res, next) => {
   next(err);
 }
 
+function validationErrorHandler (err,req,res,next) {
+  if (err.message === "Validation error") {
+    res.status(406).json({
+      message: err.errors[0].message,
+    });
+  }
+  next(err);
+}
+
+
 const boomErrorHandler = (err, req, res, next) => {
 
   if(err.isBoom){
@@ -25,5 +35,4 @@ const errorHandler = (err, req, res, next) => {
   })
 }
 
-
-module.exports = {logErrors, errorHandler, boomErrorHandler};
+module.exports = {logErrors, errorHandler, boomErrorHandler, validationErrorHandler};

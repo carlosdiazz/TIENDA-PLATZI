@@ -1,24 +1,29 @@
 //Aqui hago un modelo de la base de datos
 const {Model, DataTypes, Sequelize} = require('sequelize');
 
-const USER_TABLE = 'users';
+const PRODUCT_TABLE = 'products';
+
 
 //Ese es el esquema de la tabla de USERS de la base de datos
-const UserSchema = {
+const ProductSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
-  email: {
+  name: {
     allowNull: false,
     type: DataTypes.STRING,
-    unique: true,
   },
-  password: {
+  price: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
+  image: {
     allowNull: false,
     type: DataTypes.STRING,
+    field:'image_url',
   },
   createdAt:{
     allowNull: false,
@@ -28,10 +33,8 @@ const UserSchema = {
   }
 }
 
-//Aqui creo una clase que se llama User que hereda de Model y le paso el esquema de la tabla de USERS
-class User extends Model{
+class Product extends Model{
 
-  //Aqui creo una funcion que se llama associate que me permite relacionar las tablas
   static associate(){
 
   }
@@ -39,17 +42,16 @@ class User extends Model{
   static config(sequelize){
     return {
       sequelize,
-      tableName: USER_TABLE,
+      tableName: PRODUCT_TABLE,
       timestamps: false,
-      modelName: 'User',
+      modelName: 'Product',
     }
   }
 
 }
 
 module.exports = {
-  USER_TABLE,
-  UserSchema,
-  User,
-
+  PRODUCT_TABLE,
+  ProductSchema,
+  Product,
 }

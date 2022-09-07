@@ -5,8 +5,8 @@ const faker = require('faker');
 
 const pool = require('../libs/postgres.pool');
 
-const sequelize = require('../libs/sequelize');
-
+//const sequelize = require('../libs/sequelize');
+const {models} = require('../libs/sequelize');
 //Aqui definimos toda la logica y toda la interaciones a nivel transancional de nuestros datos
 
 class ProductsService {
@@ -44,13 +44,15 @@ class ProductsService {
   }
 
   async find(){
-    const query = 'SELECT * FROM tasks';
-    //const rta = await this.pool.query(query);
-    const [data] = await sequelize.query(query);
-    return data;
-
-
+    //const query = 'SELECT * FROM tasks';
+    ////const rta = await this.pool.query(query);
+    //const [data] = await sequelize.query(query);
+    //return data;
     //return rta.rows;
+    const product = await models.Product.findAll();
+    return product;
+
+
   }
 
   async findOne(id){

@@ -1,4 +1,5 @@
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 //const getConnection = require('../libs/postgres');
 const {models} = require('../libs/sequelize');
@@ -6,22 +7,22 @@ class UsersService {
 
   constructor(){
     this.users = [];
-    this.generate();
+    //this.generate();
   }
 
-  generate(){
-    const limit = 10;
-    for(let i = 0; i < limit; i++){
-      this.users.push({
-        id: faker.datatype.uuid(),
-        name: faker.name.findName(),
-        email: faker.internet.email(),
-        image: faker.image.avatar(),
-        tel: faker.phone.phoneNumber(),
-        address: faker.address.streetAddress(),
-      })
-    }
-  }
+  //generate(){
+  //  const limit = 10;
+  //  for(let i = 0; i < limit; i++){
+  //    this.users.push({
+  //      id: faker.datatype.uuid(),
+  //      name: faker.name.findName(),
+  //      email: faker.internet.email(),
+  //      image: faker.image.avatar(),
+  //      tel: faker.phone.phoneNumber(),
+  //      address: faker.address.streetAddress(),
+  //    })
+  //  }
+  //}
 
   async find(){
     //const client = await getConnection();
@@ -35,44 +36,49 @@ class UsersService {
   }
 
   async findOne(id){
-    return this.users.find(user => user.id === id);
+    const user = await models.User.findByPk(id);
+    if(!user){
+      throw boom.notFound('User not found');
+    }
+    return user;
+    //return this.users.find(user => user.id === id);
   }
 
   async create(data){
-    const newUser = {
-      id: faker.datatype.uuid(),
-      name: data.name,
-      email: data.email,
-      image: data.image,
-      tel: data.tel,
-      address: data.address,
-    }
-    this.users.push(newUser);
+
+    //this.users.push(data);
+    const newUser = await models.User.create(data);
     return newUser;
   }
 
   async update(id, data){
-    const index = this.users.findIndex(user => user.id === id);
-    if(index !== -1){
-      const user = this.users[index];
-      this.users[index] = {
-        ...user,
-        ...data
-      }
-      return this.users[index];
-    }else{
-      return null;
-    }
+    //const index = this.users.findIndex(user => user.id === id);
+    //if(index !== -1){
+    //  const user = this.users[index];
+    //  this.users[index] = {
+    //    ...user,
+    //    ...data
+    //  }
+    //  return this.users[index];
+    //}else{
+    //  return null;
+    //}
+    const user = await this.findOne(id);
+    const rta = await user.update(data);
+    return rta;
   }
 
   async delete(id){
-    const index = this.users.findIndex(user => user.id === id);
-    if(index !== -1){
-      this.users.splice(index, 1);
-      return true;
-    }else{
-      return false;
-    }
+    //const index = this.users.findIndex(user => user.id === id);
+    //if(index !== -1){
+    //  this.users.splice(index, 1);
+    //  return true;
+    //}else{
+    //  return false;
+    //}
+    const user = await this.findOne(id);
+    const rta  = await user.destroy();
+    return user;
 
   }
 

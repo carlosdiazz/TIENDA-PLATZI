@@ -3,7 +3,7 @@ const express = require('express');
 const routerApi = require('./routers/index.routes');
 const {config} = require('./config');
 const cors = require('cors');
-const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error.handler');
+const {logErrors, errorHandler, boomErrorHandler, validationErrorHandler} = require('./middlewares/error.handler');
 
 //Inicializacion de express
 const app = express();
@@ -17,6 +17,7 @@ routerApi(app);
 
 //Midlewares para controlar los errores, siempre va despues de los routers
 app.use(logErrors);
+app.use(validationErrorHandler);
 app.use(boomErrorHandler)
 app.use(errorHandler);
 
