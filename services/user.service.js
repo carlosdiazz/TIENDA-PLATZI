@@ -1,4 +1,6 @@
-const faker = require('faker');
+
+//? O controllers son las tareas que se van a ejecutar cuando lelguen a la ruta
+//const faker = require('faker');
 const boom = require('@hapi/boom');
 
 //const getConnection = require('../libs/postgres');
@@ -77,7 +79,7 @@ class UsersService {
     //  return false;
     //}
     const user = await this.findOne(id);
-    const rta  = await user.destroy();
+    await user.destroy();
     return user;
 
   }

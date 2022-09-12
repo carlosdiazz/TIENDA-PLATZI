@@ -1,7 +1,7 @@
 
 const express = require('express');
 const routerApi = require('./routers/index.routes');
-const {config} = require('./config');
+const {config} = require('./config/config');
 const cors = require('cors');
 const {logErrors, errorHandler, boomErrorHandler, validationErrorHandler} = require('./middlewares/error.handler');
 
