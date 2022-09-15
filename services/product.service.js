@@ -44,11 +44,6 @@ class ProductsService {
   }
 
   async find(){
-    //const query = 'SELECT * FROM tasks';
-    ////const rta = await this.pool.query(query);
-    //const [data] = await sequelize.query(query);
-    //return data;
-    //return rta.rows;
     const product = await models.Product.findAll();
     return product;
 
